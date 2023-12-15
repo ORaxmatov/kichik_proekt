@@ -108,6 +108,58 @@ function getTimeRemaining(endtime){
 setClock('.timer', deadline)
 
 //Timer end
+
+// Modal start
+const modalTrigger = document.querySelectorAll('[data-modal]')
+const modal = document.querySelector('.modal')
+const modalCloseBtn = document.querySelector('[data-close]')
+const body = document.querySelector('body')
+
+
+function closeModal(){
+  modal.classList.remove('show')
+  modal.classList.add('hide')
+  body.style.overflow = ''
+}
+
+function openModal(){
+  modal.classList.add('show')
+  modal.classList.remove('hide')
+  body.style.overflow = 'hidden'
+  clearInterval(modalTimerId)
+}
+
+modalTrigger.forEach((item)=>{
+  item.addEventListener('click',openModal)
+})
+
+modalCloseBtn.addEventListener('click', closeModal)
+
+modal.addEventListener('click', (e)=>{
+ if(e.target == modal){
+  closeModal()
+ }
+})
+
+document.addEventListener('keydown', (e)=>{
+  if(e.code === 'Escape' && modal.classList.contains('show')){
+    closeModal()
+  }
+})
+
+const modalTimerId = setTimeout(openModal, 4000)
+
+
+
+function showModalByScroll(){
+  if(window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight){
+    openModal()
+    window.removeEventListener('scroll', showModalByScroll)
+  }
+}
+
+window.addEventListener('scroll',showModalByScroll)
+// Modal end
 })
 
 
